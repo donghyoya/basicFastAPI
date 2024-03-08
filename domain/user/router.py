@@ -77,10 +77,6 @@ def appendUser(userId: int, db:Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return apUser_db
 
-@router.patch("/setKlipToken",response_model=bool)
-def setKlipToken(userId: int, token:str, db: Session = Depends(get_db)):
-    setTokenUser_db = crud.setKlipToken(db=db, userId=userId, token=token)
-    return setTokenUser_db
 
 @router.delete("/removeUser",response_model=bool)
 def removeUser(userId: int,db: Session = Depends(get_db)):
