@@ -3,6 +3,8 @@ PrimaryKeyConstraint, BigInteger, Text, \
 Boolean, DateTime
 from sqlalchemy.orm import relationship
 
+from datetime import datetime
+
 from default.config.database import Base
 
 class User(Base):
@@ -15,6 +17,7 @@ class User(Base):
     password = Column(Text)
     nickName = Column(String(20))
     email = Column(String(30))
-    crtDateTime = Column(DateTime)
+    createDateTime = Column(DateTime, default=datetime.now)
+    updateDateTime = Column(DateTime, default=datetime.now)
     rmData = Column(Boolean,default=False)
     multifile = relationship("MultiFile", back_populates="user")
