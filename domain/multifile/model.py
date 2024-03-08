@@ -1,29 +1,16 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, \
-PrimaryKeyConstraint, BigInteger, Text, DateTime ,Float
+from sqlalchemy import  Column, String, \
+PrimaryKeyConstraint, BigInteger, Text, \
+Boolean
 from sqlalchemy.orm import relationship
 
-from dotenv import load_dotenv
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, \
+PrimaryKeyConstraint, BigInteger, Text, DateTime 
+from sqlalchemy.orm import relationship
+
 from datetime import datetime
-import os
 
+from default.config.database import Base
 
-class User(Base):
-    __tablename__ = 'User'
-    __table_args__ = (
-         PrimaryKeyConstraint('uid', name='User_pkey'),
-     )
-    uid = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
-    userId = Column(String(20))
-    password = Column(Text)
-    nickName = Column(String(20))
-    email = Column(String(30))
-    rmData = Column(Boolean,default=False)
-    images = relationship("MultiFile", back_populates="user")
-    
 class MultiFile(Base):
     __tablename__ = 'MultiFile'
     __table_args__ = (
