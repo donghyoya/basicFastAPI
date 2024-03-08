@@ -25,7 +25,7 @@ class User(Base):
     
 class MultiFile(Base):
     __tablename__ = 'MultiFile'
-    mid = Column(BigInteger, primary_key=True, index=True)
+    mfid = Column(BigInteger, primary_key=True, index=True)
     filename = Column(String(255))  # 파일 이름
     mimetype = Column(String(255))  # 파일 타입(MIME 타입)
     filesize = Column(BigInteger)  # 파일 사이즈
