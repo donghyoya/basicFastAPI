@@ -20,3 +20,10 @@ def get_db():
 def create_multifile(multifile: schema.MultiFileCreate, db: Session = Depends(get_db)):
     return crud.create_multifile(db=db, multifile=multifile, user_id=multifile.uid)
 
+@router.put("/multifiles/{mfid}", response_model=schema.MultiFileInDB)
+def update_multifile(mfid: int, multifile: schema.MultiFileUpdate, db: Session = Depends(get_db)):
+    return crud.update_multifile(db=db, mfid=mfid, multifile=multifile)
+
+@router.delete("/multifiles/{mfid}", response_model=schema.MultiFileInDB)
+def delete_multifile(mfid: int, db: Session = Depends(get_db)):
+    return crud.delete_multifile(db=db, mfid=mfid)
