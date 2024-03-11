@@ -42,16 +42,16 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-@router.post("/login",response_model=schema.UserBase)
+@router.post("/login")
 def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
     user = crud.login(db=db, id=user_login.loginId, pwd=user_login.password)
     if user == "Invalid credentials":
-        raise HTTPException(
-            status_code="401",
-            detail="Invalid credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return user
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    else:
+        # 사용자 ID를 키로 하고, 예를 들어 세션 ID나 토큰을 값으로 사용하여 Redis에 저장
+        session_id = "세션 ID 생성 로직"
+        redis_client.set(f"session:{user.id}", session_id)
+        return {"session_id": session_id}
 
 @router.get("/getUsers",response_model=List[schema.UserBase])
 def getUsers(skip: int = Query(
