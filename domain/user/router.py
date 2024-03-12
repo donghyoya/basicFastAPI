@@ -3,6 +3,8 @@ from . import crud, schema
 from sqlalchemy.orm import Session
 from typing import List
 from default.config import database
+from redis import Redis
+import secrets
 
 
 router = APIRouter(
@@ -44,8 +46,17 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 @router.post("/login")
-def login(user_login: schema.UserLogin, db: Session = Depends(get_db)):
+async def login(user_login: schema.UserLogin, db: Session = Depends(database.get_db)):
     user = crud.login(db=db, id=user_login.loginId, pwd=user_login.password)
+    if user is None:
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
+    # 세션 토큰 생성 및 Redis에 저장
+    session_token = secrets.token_urlsafe()
+    redis_client = Redis(host='localhost', port=6379, db=0, password='yourpassword')
+    redis_client.set(session_token, user.user_id, ex=3600)  # 예: 1시간 동안 유효한 세션
+
+    return {"session_token": session_token}
 
 @router.get("/getUsers",response_model=List[schema.UserBase])
 def getUsers(skip: int = Query(
