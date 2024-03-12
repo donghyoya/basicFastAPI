@@ -8,7 +8,7 @@ from default.middleware.sessionmiddleware import session_middleware
 
 app = FastAPI()
 
-setup_cors(app)
+app.add_middleware(setup_cors)
 app.add_middleware(session_middleware)
 
 app.include_router(user_router, prefix="/user")
