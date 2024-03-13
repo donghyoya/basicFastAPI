@@ -11,15 +11,16 @@ def get_user_by_email(db: Session, email:str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(model.User).filter(model.User.rmData == False)\
         .offset(skip).limit(limit).all()
-        
+
 # 비밀번호를 암호화한다
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode('utf-8')).hexdigest()
-    
+        
 # 암호화 검증
 def verify_password(original_password: str, hashed_password: str) -> bool:
-    return hash_password(original_password) == hashed_password
+    return hash_password(original_password) == hashed_password        
 
+    
 def create_user(db: Session, user: schema.UserCreate):
     hashed_password = hash_password(user.password)
     db_user = model.User(userId=user.userId, 
