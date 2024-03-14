@@ -27,9 +27,6 @@ async def create_user(user: schema.UserCreate = Body(
         "password": "dong0814",
         "nickName": "blablabal",
         "email":"noting@test.com",
-        "wallet_address": "no address",
-        "profileImage":"mmm",
-        "klipToken":"testklipToken",
     },
 ), db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db=db, email=user.email)
