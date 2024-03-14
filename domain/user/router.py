@@ -55,6 +55,16 @@ async def login(user_login: schema.UserLogin, db: Session = Depends(database.get
 
     return {"session_token": session_token}
 
+@router.post("/logout")
+async def logout(session_token: str = Header(None)):
+    redis_client = Redis(host='localhost', port=6379, db=0)
+    result = redis_client.delete(session_token)
+    
+    if result == 1:
+        return {"message": "Logged out successfully"}
+    else:
+        raise HTTPException(status_code=404, detail="Session not found or already expired")
+
 @router.get("/getUsers",response_model=List[schema.UserBase])
 def getUsers(skip: int = Query(
     default=0,
