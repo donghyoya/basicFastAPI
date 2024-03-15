@@ -51,7 +51,7 @@ async def login(user_login: schema.UserLogin, db: Session = Depends(database.get
     # 세션 토큰 생성 및 Redis에 저장
     session_token = secrets.token_urlsafe()
     redis_client = Redis(host='localhost', port=6379, db=0)
-    redis_client.set(session_token, user.user_id, ex=3600)  # 예: 1시간 동안 유효한 세션
+    redis_client.set(session_token, user.uid, ex=3600)  # 예: 1시간 동안 유효한 세션
 
     return {"session_token": session_token}
 
