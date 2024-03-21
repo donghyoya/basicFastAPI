@@ -5,8 +5,8 @@ FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 WORKDIR /app
 
 # Install any needed packages specified in requirements.txt
-COPY package-python.txt /app/
-RUN pip install --no-cache-dir -r package-python.txt
+COPY python-lib.txt /app/
+RUN pip install --no-cache-dir -r python-lib.txt
 
 # Copy the current directory contents into the container at /app
 COPY . /app
