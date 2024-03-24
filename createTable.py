@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 import os
 
+Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'User'
@@ -36,3 +37,6 @@ class MultiFile(Base):
     upload_date = Column(DateTime, default=datetime.utcnow)  # 업로드 날짜
     file_path = Column(Text)  # 파일 저장 위치
     uid = Column(BigInteger, ForeignKey('User.uid'))  # User 테이블의 uid를 외래 키로 참조
+    
+
+Base.metadata.create_all(engine)
