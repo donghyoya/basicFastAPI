@@ -19,20 +19,20 @@ class User(Base):
     __tablename__ = 'User'
     __table_args__ = (
          PrimaryKeyConstraint('uid', name='User_pkey'),
-     )
+    )  # 주의: 콤마를 추가하여 단일 항목이라도 튜플로 만들어줍니다.
     uid = Column(BigInteger, primary_key=True, unique=True, autoincrement=True)
     userId = Column(String(20))
     password = Column(Text)
     nickName = Column(String(20))
     email = Column(String(30))
-    rmData = Column(Boolean,default=False)
+    rmData = Column(Boolean, default=False)
     images = relationship("MultiFile", back_populates="user")
     
 class MultiFile(Base):
     __tablename__ = 'MultiFile'
     __table_args__ = (
-        PrimaryKeyConstraint('mfid', name='Multifile_pkey')
-    )
+        PrimaryKeyConstraint('mfid', name='Multifile_pkey'),
+    )  # 주의: 콤마를 추가하여 단일 항목이라도 튜플로 만들어줍니다.
     mfid = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
     filename = Column(String(255))  # 파일 이름
     mimetype = Column(String(255))  # 파일 타입(MIME 타입)
@@ -44,10 +44,6 @@ class MultiFile(Base):
 
 if __name__ == '__main__':
     
-    engine = create_engine("mysql+pymysql://testuser:test0814@localhost/testDB?charset=utf8mb4")
-    
-    for table in Base.metadata.tables.values():
-        print(table, type(table))
-
-        _statements = CreateTable(table).compile(dialect=mysql.dialect())
-        print(_statements)
+    engine = create_engine("mysql+pymysql://testuser:test0814@localhost:3307/testDB?charset=utf8mb4")
+    Session = sessionmaker(bind=engine)
+    Base.metadata.create_all(engine)
