@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import MetaData
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, \
 PrimaryKeyConstraint, BigInteger, Text, DateTime ,Float
@@ -39,5 +40,3 @@ class MultiFile(Base):
     uid = Column(BigInteger, ForeignKey('User.uid'))  # User 테이블의 uid를 외래 키로 참조
     
 engine = create_engine("mysql+pymysql://testuser:test0814@localhost/testDB?charset=utf8mb4")
-
-Base.metadata.create_all(engine)
