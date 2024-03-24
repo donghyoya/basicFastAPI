@@ -38,5 +38,6 @@ class MultiFile(Base):
     file_path = Column(Text)  # 파일 저장 위치
     uid = Column(BigInteger, ForeignKey('User.uid'))  # User 테이블의 uid를 외래 키로 참조
     
+engine = create_engine("mysql+pymysql://testuser:test0814@localhost/testDB?charset=utf8mb4")
 
 Base.metadata.create_all(engine)
